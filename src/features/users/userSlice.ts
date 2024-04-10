@@ -8,7 +8,7 @@ interface UsersState {
   error: string | null;
 }
 
-const initialState: UsersState = {
+const initialState: UsersState = JSON.parse(localStorage.getItem('usersState') || 'null') || {
   users: [],
   status: 'idle',
   error: null,
@@ -37,26 +37,28 @@ export const deleteUser = createAsyncThunk('users/deleteUser', async (id: number
 const usersSlice = createSlice({
   name: 'users',
   initialState,
-  reducers: {
-    // Reducers for additional actions if needed
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchUsers.fulfilled, (state, action: PayloadAction<User[]>) => {
         state.status = 'succeeded';
         state.users = action.payload;
+        localStorage.setItem('usersState', JSON.stringify(state));
       })
       .addCase(addUser.fulfilled, (state, action: PayloadAction<User>) => {
         state.users.push(action.payload);
+        localStorage.setItem('usersState', JSON.stringify(state));
       })
       .addCase(updateUser.fulfilled, (state, action: PayloadAction<User>) => {
         const index = state.users.findIndex(user => user.id === action.payload.id);
         if (index !== -1) {
           state.users[index] = action.payload;
+          localStorage.setItem('usersState', JSON.stringify(state));
         }
       })
       .addCase(deleteUser.fulfilled, (state, action: PayloadAction<number>) => {
         state.users = state.users.filter(user => user.id !== action.payload);
+        localStorage.setItem('usersState', JSON.stringify(state));
       });
   },
 });

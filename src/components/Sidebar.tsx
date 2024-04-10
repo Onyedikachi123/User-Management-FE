@@ -1,15 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faUser, faUserPlus } from '@fortawesome/free-solid-svg-icons';
-import { useAppSelector } from '../hooks/hooks'; // Import useAppSelector hook
+import { faHome } from '@fortawesome/free-solid-svg-icons';
+// import { useAppSelector } from '../hooks/hooks'; // Import useAppSelector hook
 
 interface SidebarProps {
   collapsed: boolean;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
-  const users = useAppSelector((state) => state.users.users); // Access users from Redux store
+  // const users = useAppSelector((state) => state.users.users); // Access users from Redux store
 
   return (
     <div className={`bg-gray-800 ${collapsed ? 'w-16' : 'w-64'} transition-all duration-300 h-full`}>
@@ -22,7 +22,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
             {!collapsed && 'Home'}
           </Link>
         </li>
-        {users.map((user) => (
+        {/* {users.map((user) => (
           <li key={user.id} className="group py-2 hover:bg-gray-700 transition-colors duration-200 relative">
             <Link to={`/userdetail/${user.id}`} className="flex items-center">
               <FontAwesomeIcon icon={faUser} className="mr-2" />
@@ -30,14 +30,14 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
               {!collapsed && user.name}
             </Link>
           </li>
-        ))}
-        <li className="group py-2 hover:bg-gray-700 transition-colors duration-200 relative">
+        ))} */}
+        {/* <li className="group py-2 hover:bg-gray-700 transition-colors duration-200 relative">
           <Link to="/add-user" className="flex items-center">
             <FontAwesomeIcon icon={faUserPlus} className="mr-2" />
             {collapsed && <span className="absolute left-full ml-2 bg-black text-white text-sm px-3 py-1 rounded hidden group-hover:block">Add User</span>}
             {!collapsed && 'Add User'}
           </Link>
-        </li>
+        </li> */}
       </ul>
     </div>
   );

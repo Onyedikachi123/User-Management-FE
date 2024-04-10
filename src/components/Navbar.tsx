@@ -9,7 +9,7 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ collapsed, setCollapsed }) => {
   return (
-    <header className="bg-blue-500 text-white p-4 flex justify-between items-center">
+    <header className="bg-blue-500 text-white p-2 flex justify-between items-center">
       <button
         onClick={() => setCollapsed(!collapsed)}
         className="text-white text-lg"

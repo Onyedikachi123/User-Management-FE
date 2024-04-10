@@ -1,58 +1,44 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import UserForm from '../components/UserForm';
-import { User } from '../types';
+import { useAppDispatch, useAppSelector } from '../hooks/hooks';
+import { deleteUser, fetchUsers } from '../features/users/userSlice';
+
 
 const UserDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const [user, setUser] = useState<User | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(state =>
+    state.users.users.find(user => user.id.toString() === id)
+  );
 
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await axios.get<User>(`https://jsonplaceholder.typicode.com/users/${id}`);
-        setUser(response.data);
-        setError(null); // Reset error state on successful fetch
-      } catch (error) {
-        setError('Failed to fetch user details'); // Set error message
-      }
-    };
-
-    if (id) {
-      fetchUser();
+    if (!user) {
+      dispatch(fetchUsers());
     }
-  }, [id]);
+  }, [dispatch, user]);
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
     if (id) {
-      try {
-        await axios.delete(`https://jsonplaceholder.typicode.com/users/${id}`);
-        navigate('/');
-      } catch (error) {
-        setError('Failed to delete user'); // Set error message
-      }
+      dispatch(deleteUser(parseInt(id)));
+      navigate('/');
     }
   };
 
   return (
-    <div>
-      {error && <p className="text-red-500">{error}</p>} {/* Display error message */}
+    <div className="max-w-md mx-auto mt-10 bg-white shadow-lg rounded-lg overflow-hidden">
       {user ? (
-        <>
-          <h2>{user.name}</h2>
-          <p>{user.email}</p>
-          <UserForm user={user} />
-          <button onClick={handleDelete}>Delete User</button>
-        </>
+        <div className="p-6">
+          <h2 className="text-2xl font-bold mb-2">{user.name}</h2>
+          <p className="text-gray-700 mb-1"><strong>Username:</strong> {user.username}</p>
+          <p className="text-gray-700 mb-1"><strong>Email:</strong> {user.email}</p>
+          <button className="bg-red-500 text-white px-4 py-2 rounded mt-4" onClick={handleDelete}>Delete User</button>
+        </div>
       ) : (
-        <p>Loading...</p>
+        <p className="p-4">Loading...</p>
       )}
     </div>
   );
 };
-
 
 export default UserDetail;

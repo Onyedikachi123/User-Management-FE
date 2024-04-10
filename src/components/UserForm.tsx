@@ -13,16 +13,15 @@ const UserForm: React.FC<UserFormProps> = ({ user, handleClose }) => {
   const [name, setName] = useState(user?.name || '');
   const [email, setEmail] = useState(user?.email || '');
   const [username, setUsername] = useState(user?.username || '');
-  const [phone, setPhone] = useState(user?.phone.toString() || ''); // Convert phone number to string for input value
+
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const newUser: User = {
-      id: user ? user.id : Date.now(), // Use Date.now() for a simple unique ID for new users
+      id: user ? user.id : Date.now(), 
       name,
       email,
       username,
-      phone: parseInt(phone, 10) || 0, // Convert phone back to number
     };
     if (user) {
       dispatch(updateUser({ id: user.id, user: newUser }));
@@ -45,10 +44,6 @@ const UserForm: React.FC<UserFormProps> = ({ user, handleClose }) => {
       <div className="mb-3">
         <label htmlFor="userUsername" className="form-label">Username:</label>
         <input type="text" className="form-control" id="userUsername" value={username} onChange={(e) => setUsername(e.target.value)} />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="userPhone" className="form-label">Phone:</label>
-        <input type="tel" className="form-control" id="userPhone" value={phone} onChange={(e) => setPhone(e.target.value)} />
       </div>
       <button type="submit" className="btn btn-primary">{user ? 'Update' : 'Add'}</button>
     </form>
