@@ -1,6 +1,6 @@
 describe('UserTable', () => {
     beforeEach(() => {
-      cy.visit('/'); // Adjust this to the path where your UserTable component is rendered
+      cy.visit('/UserTable.tsx'); 
     });
   
     it('displays a list of users', () => {
