@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { User } from '../../types';
 
-interface UsersState {
+export interface UsersState {
   users: User[];
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;

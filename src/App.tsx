@@ -6,6 +6,7 @@ import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
 import Home from './pages/Home';
 import UserDetail from './pages/UserDetail';
+import './App.css'
 
 const App: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);

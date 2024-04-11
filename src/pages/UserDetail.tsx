@@ -1,44 +1,46 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../hooks/hooks";
-import { deleteUser } from "../features/users/userSlice";
-import { User } from "../types";
-import axios from "axios";
-import { Button, Modal, Toast } from "react-bootstrap";
-import UserForm from "../components/UserForm";
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../hooks/hooks';
+import { deleteUser, fetchUsers } from '../features/users/userSlice';
+import { User } from '../types';
+import { Button, Modal, Toast } from 'react-bootstrap';
+import UserForm from '../components/UserForm';
 
 const UserDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const users = useAppSelector(state => state.users.users);
   const [user, setUser] = useState<User | undefined>(undefined);
   const [error, setError] = useState<string | null>(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await axios.get<User>(
-          `https://jsonplaceholder.typicode.com/users/${id}`
-        );
-        setUser(response.data);
-      } catch (error) {
-        setError("Failed to fetch user details");
-      }
-    };
+    dispatch(fetchUsers());
+  }, [dispatch]);
 
-    if (id) {
-      fetchUser();
+  useEffect(() => {
+    const storedUsersState = localStorage.getItem('usersState');
+    if (storedUsersState) {
+      const storedUsers = JSON.parse(storedUsersState).users;
+      const foundUser = storedUsers.find((user: { id: { toString: () => string | undefined; }; }) => user.id.toString() === id);
+      if (foundUser) {
+        setUser(foundUser);
+      } else {
+        setError('User not found');
+      }
+    } else {
+      setError('No users stored');
     }
-  }, [id]);
+  }, [id, users]);
 
   const handleDelete = () => {
     if (id) {
       dispatch(deleteUser(parseInt(id)));
       setShowToast(true);
       setTimeout(() => {
-        navigate("/");
+        navigate('/');
       }, 2000);
     }
   };
@@ -60,7 +62,7 @@ const UserDetail: React.FC = () => {
     <div className="container">
       <div className="row justify-content-center">
         <div className="col-lg-6 col-md-8 col-sm-10 col-12 mt-10">
-          <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+          <div className="bg-white rounded-lg overflow-hidden border">
             {error && <p className="text-red-500 p-4">{error}</p>}
             {user ? (
               <div className="p-6">
