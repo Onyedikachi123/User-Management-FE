@@ -4,7 +4,7 @@ import UserForm from '../components/UserForm';
 import { Modal, Button } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import { fetchUsers } from '../features/users/userSlice';
-import { User } from '../types'
+import { User } from '../types';
 
 const Home: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -14,7 +14,7 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     if (users.length === 0) {
-    dispatch(fetchUsers());
+      dispatch(fetchUsers());
     }
   }, [dispatch, users.length]);
 
@@ -29,14 +29,14 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div className=" mx-auto p-2">
+    <div className="mx-auto p-2">
       <h1 className="text-2xl font-bold mb-4">User List</h1>
       <Button variant="primary" onClick={() => handleOpenModal()} className='mb-3'>
         Add User
       </Button>
       {status === 'loading' && <p>Loading...</p>}
       {error && <p className="text-red-500">Error: {error}</p>}
-      <UserTable users={users} onEditUser={handleOpenModal} />
+      <UserTable users={users} />
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
           <Modal.Title>{selectedUser ? 'Edit User' : 'Add User'}</Modal.Title>
