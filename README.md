@@ -29,11 +29,43 @@ export default {
 - Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
 
-# Usage
-Clone the application from git, then "npm install" This will install all the dependencies listed in your package.json file.
 
-# running
-npm run dev to run the application
+Install Dependencies:
+First, ensure that you have all the necessary dependencies installed. Navigate to the root directory of your project in the terminal and run:
+
+
+Copy code
+npm install
+This will install all the dependencies listed in your package.json file.
+
+Start the Development Server:
+Since you're using Vite as your build tool, you can start the development server with the following command:
+
+
+
+npm run dev
+This command is typically defined in the scripts section of your package.json file. It will start the Vite development server, and you should be able to access your application by going to the URL provided in the terminal (usually http://localhost:3000).
+
+Build for Production (Optional):
+If you want to build your application for production, you can use the following command:
+
+Clone the application from git with git clone
+
+npm run build
+This will create a production build of your application in the dist directory (or a different directory if configured).
+
+Run Tests:
+
+For unit and integration tests using Jest, you can run:
+
+
+npm run test
+For end-to-end tests using Cypress, you can run:
+
+
+npx cypress open
+This will open the Cypress Test Runner, where you can run your E2E tests.
+
 
 # React
 A JavaScript library for building user interfaces, particularly single-page applications. It's used for its efficient and flexible way of rendering components and managing state in web applications.
