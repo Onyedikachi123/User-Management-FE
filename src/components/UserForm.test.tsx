@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { render, screen, fireEvent } from '@testing-library/react';
 import UserForm from '../components/UserForm';
 import { Provider } from 'react-redux';
